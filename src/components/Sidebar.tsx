@@ -7,6 +7,16 @@ interface SidebarProps {
 
 const NAV = [
   {
+    id: 'brand-foundation',
+    label: 'BRAND FOUNDATION',
+    items: [
+      { id: 'brand-personality', label: 'Brand personality' },
+      { id: 'who-we-design-for', label: 'Who we design for' },
+      { id: 'tone-of-voice', label: 'Tone of voice' },
+      { id: 'artistic-direction', label: 'Artistic direction' },
+    ],
+  },
+  {
     id: 'logo',
     label: 'LOGO',
     items: [

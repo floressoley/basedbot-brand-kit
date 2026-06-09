@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar'
 import LogoSection from './sections/Logo'
 import TypographySection from './sections/Typography'
 import ColorsSection from './sections/Colors'
+import BrandFoundationSection from './sections/BrandFoundation'
 import BrandExpressionsSection from './sections/BrandExpressions'
 import SocialMediaSection from './sections/SocialMedia'
 
@@ -11,6 +12,7 @@ function renderContent(active: string) {
   const section = active.slice(0, slash)
   const item = active.slice(slash + 1)
   switch (section) {
+    case 'brand-foundation': return <BrandFoundationSection item={item} />
     case 'logo': return <LogoSection item={item} />
     case 'typography': return <TypographySection item={item} />
     case 'color': return <ColorsSection item={item} />
