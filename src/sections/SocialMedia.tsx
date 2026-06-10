@@ -41,11 +41,14 @@ function PlatformPage({ path, title, handle, accentColor, description, specs, no
         <div style={{ padding: '10px 20px', borderBottom: '1px solid #1E1E2E' }}>
           <span style={{ color: '#7D7D87', fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Usage Notes</span>
         </div>
-        <ul style={{ margin: 0, padding: '10px 20px 14px 36px' }}>
+        <div style={{ padding: '6px 20px 14px' }}>
           {notes.map((n, i) => (
-            <li key={i} style={{ color: '#ABABB1', fontSize: 14, lineHeight: 1.8 }}>{n}</li>
+            <div key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 10, padding: '7px 0', borderBottom: i < notes.length - 1 ? '1px solid #1E1E2E' : 'none' }}>
+              <div style={{ width: 5, height: 5, borderRadius: '50%', background: accentColor, flexShrink: 0, marginTop: 1 }} />
+              <span style={{ color: '#ABABB1', fontSize: 13, lineHeight: 1.7 }}>{n}</span>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   )

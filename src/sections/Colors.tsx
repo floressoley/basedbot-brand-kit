@@ -36,20 +36,32 @@ const MARKETING_COLORS: ColorEntry[] = [
 const GRADIENTS = [
   {
     name: 'Brand Dark',
-    stops: ['#0A091E', '#0D1627', '#163569'],
+    stops: [
+      { hex: '#0A091E', label: 'Navy' },
+      { hex: '#0D1627', label: 'Navy Deep' },
+      { hex: '#163569', label: 'Navy Mid' },
+    ],
     css: 'linear-gradient(135deg, #0A091E 0%, #0D1627 50%, #163569 100%)',
     usage: 'Hero sections, card backgrounds',
   },
   {
     name: 'Brand Blue',
-    stops: ['#163569', '#2388FF', '#8EC5FF'],
+    stops: [
+      { hex: '#163569', label: 'Navy Mid' },
+      { hex: '#2388FF', label: 'Blue' },
+      { hex: '#8EC5FF', label: 'Sky Blue' },
+    ],
     css: 'linear-gradient(135deg, #163569 0%, #2388FF 60%, #8EC5FF 100%)',
     usage: 'CTA buttons, accent elements',
   },
   {
     name: 'Night to Day',
-    stops: ['#0A0A0F', '#0D1627', '#2388FF'],
-    css: 'linear-gradient(180deg, #0A0A0F 0%, #0D1627 60%, #2388FF 100%)',
+    stops: [
+      { hex: '#0A0A0F', label: 'Black' },
+      { hex: '#0D1627', label: 'Navy Deep' },
+      { hex: '#163569', label: 'Navy Mid' },
+    ],
+    css: 'linear-gradient(180deg, #0A0A0F 0%, #0A0A0F 15%, #0D1627 50%, #163569 100%)',
     usage: 'Full-page backgrounds, landing pages',
   },
 ]
@@ -169,6 +181,84 @@ function MarketingColors() {
   )
 }
 
+function GradientCard({ g }: { g: typeof GRADIENTS[number] }) {
+  const [copied, setCopied] = useState(false)
+
+  const copy = () => {
+    navigator.clipboard.writeText(g.css)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1500)
+  }
+
+  return (
+    <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid #1E1E2E' }}>
+      {/* Tall gradient swatch */}
+      <div style={{ background: g.css, height: 200, position: 'relative' }}>
+        {/* Copy button top-right */}
+        <button
+          onClick={copy}
+          style={{
+            position: 'absolute',
+            top: 14,
+            right: 14,
+            background: 'rgba(10,9,30,0.55)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(255,255,255,0.15)',
+            borderRadius: 999,
+            color: copied ? '#8EC5FF' : 'rgba(255,255,255,0.7)',
+            fontSize: 10,
+            fontFamily: "'Geist Mono', monospace",
+            letterSpacing: '0.06em',
+            padding: '5px 12px',
+            cursor: 'pointer',
+            transition: 'color 0.15s, border-color 0.15s',
+          }}
+        >
+          {copied ? 'COPIED' : 'COPY CSS'}
+        </button>
+      </div>
+
+      {/* Info row */}
+      <div style={{ background: '#12121A', padding: '18px 20px 20px', borderTop: '1px solid #1E1E2E' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
+          <div>
+            <div style={{ color: '#FFFFFF', fontSize: 15, fontWeight: 500, marginBottom: 3 }}>{g.name}</div>
+            <div style={{ color: '#7D7D87', fontSize: 12 }}>{g.usage}</div>
+          </div>
+        </div>
+
+        {/* Color stops */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
+          {g.stops.map((s, i) => (
+            <div key={s.hex} style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+                <div
+                  style={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: '50%',
+                    background: s.hex,
+                    border: '2px solid #1E1E2E',
+                    boxShadow: '0 0 0 1px #2E2E3E',
+                    flexShrink: 0,
+                  }}
+                />
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ color: '#ABABB1', fontSize: 10, fontFamily: "'Geist Mono', monospace", letterSpacing: '0.04em', marginBottom: 2 }}>{s.hex}</div>
+                  <div style={{ color: '#7D7D87', fontSize: 10 }}>{s.label}</div>
+                </div>
+              </div>
+              {i < g.stops.length - 1 && (
+                <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, #2E2E3E, #2E2E3E)', margin: '0 6px', marginBottom: 38 }} />
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function PrimaryGradient() {
   return (
     <div style={{ padding: '40px 48px', maxWidth: 860 }}>
@@ -177,26 +267,8 @@ function PrimaryGradient() {
         title="Primary Gradient"
         description="Directional gradients built from the core palette. Use for backgrounds, hero sections, and feature highlights."
       />
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {GRADIENTS.map(g => (
-          <div key={g.name} style={{ borderRadius: 10, overflow: 'hidden', border: '1px solid #1E1E2E' }}>
-            <div style={{ background: g.css, height: 100 }} />
-            <div style={{ background: '#12121A', padding: '14px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #1E1E2E' }}>
-              <div>
-                <div style={{ color: '#FFFFFF', fontSize: 13, fontWeight: 500, marginBottom: 3 }}>{g.name}</div>
-                <div style={{ color: '#7D7D87', fontSize: 12 }}>{g.usage}</div>
-              </div>
-              <div style={{ display: 'flex', gap: 12 }}>
-                {g.stops.map(s => (
-                  <div key={s} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <div style={{ width: 10, height: 10, borderRadius: 3, background: s, border: '1px solid #1E1E2E' }} />
-                    <span style={{ color: '#ABABB1', fontSize: 10, fontFamily: "'Geist Mono', monospace" }}>{s}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        ))}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {GRADIENTS.map(g => <GradientCard key={g.name} g={g} />)}
       </div>
     </div>
   )
